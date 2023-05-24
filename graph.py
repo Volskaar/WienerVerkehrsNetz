@@ -15,10 +15,23 @@ class graph:
 
         self.verteces = []
         self.edges = []
+        self.newRows = []
+        self.strings = []
 
         with open(input_file, 'r') as file:
             for row in file:
-                line = row.split(':')[0]
-                print(line)
-                
-                print(row.split(':')[1])
+                temp = row.replace(":", " ")
+                self.newRows.append(temp)
+
+            for row in self.newRows:
+                self.strings.append(row.split())
+
+        
+        print(self.strings[0][0])
+
+
+
+
+
+
+
