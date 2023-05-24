@@ -1,3 +1,5 @@
+import re
+
 class Edge:
     def __init__(self, value, line, von, nach):
         self.value = value
@@ -22,21 +24,29 @@ class Graph:
 
         with open(self.inputFile, 'r') as file:
             for row in file:
+                #Löscht den ":" vor den Liniennamen
                 temp = row.replace(":", " ")
-                newRows.append(temp.split())
+                #Löst die Stationen und Wertigkeiten aus dem Text raus und erstellt ein 2d arry
+                matches = re.findall(r'(?:U\d+|\d+|"[^"]*")', temp)
+                newRows.append(matches)
 
         #2. iterate through information array and create verteces and edges
         for i in range(len(newRows)):
+
+            #initialize counter to keep track which station is "from" and which is "to"
+            counter = 0
             for content in newRows[i]:
-                print(newRows[i].index(content)%2)
+                print(newRows[i].index(content)%3)
+                print("Test "+ content)
 
                 #get line
                 if content == newRows[i][0]:
                     line = content
 
                 #get to
-                if newRows[i].index(content)%3 == 0:
-                    nach = content
+                elif newRows[i].index(content)%2 == 1 and counter != 1:
+                    von = content
+                    counter = 1
 
                 #get weight
                 elif newRows[i].index(content)%2 == 0:
@@ -44,10 +54,13 @@ class Graph:
 
                 #get from
                 else:
-                    von = content
+                    nach = content
+                    counter = 0
+
+                
                 
                 #self.edges.append(Edge(value, line, von, nach))
-
+              
         #Test print edges
         for edge in self.edges:
             print("From: " + edge.von + " To: " + edge.nach + " Weight: " + edge.value)
