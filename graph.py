@@ -92,7 +92,17 @@ class Graph:
             if vertexExists == False:
                 self.verteces.append(Vertex(edge.vertexB)) 
 
+        for vertex in self.verteces:
+            for edge in self.edges:
+                if edge.vertexA == vertex.name or edge.vertexB == vertex.name:
+                    vertex.connections.append(edge)
+
+        #'''
         #Test print edges
         for vertex in self.verteces:
-            print("Vertex: " + vertex.name)
+            for connection in vertex.connections:
+                if vertex.name == connection.vertexA:
+                    print("Station: " + vertex.name + " connected to: " + connection.vertexB)
+                if vertex.name == connection.vertexB:
+                    print("Station: " + vertex.name + " connected to: " + connection.vertexA)
         #''' 
