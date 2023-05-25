@@ -14,5 +14,6 @@ for i in range(1, len(sys.argv)):
 network = graph.Graph(input_file)
 network.defineEdges()
 network.defineVerteces()
+network.dijkstra(start, end)
 
-#python find_path.py WienerVerkehrsNetz.txt start ziel
+#python find_path.py WienerVerkehrsNetz.txt Leopoldau "Neue Donau"

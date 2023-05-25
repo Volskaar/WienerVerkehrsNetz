@@ -1,4 +1,5 @@
 import re
+import sys
 
 class Edge:
     def __init__(self, value, line, von, nach):
@@ -11,6 +12,9 @@ class Vertex:
     def __init__(self, name):
         self.name = name
         self.connections = [] #array of edges
+        self.visited = False
+        self.distance = sys.maxsize
+        self.previous = None
 
 class Graph:
     def __init__(self, input_file):
@@ -106,3 +110,57 @@ class Graph:
                 if vertex.name == connection.vertexB:
                     print("Station: " + vertex.name + " connected to: " + connection.vertexA)
         #''' 
+
+    def get_vertex(self, name):
+        for vertex in self.verteces:
+            if vertex.name == name:
+                return vertex
+        return None
+ 
+    def dijkstra(self, start_vertex_name, end_vertex_name):
+        start_vertex = self.get_vertex(start_vertex_name)
+        end_vertex = self.get_vertex(end_vertex_name)
+
+        if start_vertex is None or end_vertex is None:
+            print("Ungültige Station(en).")
+            return
+
+        start_vertex.distance = 0
+        current_vertex = start_vertex
+
+        while current_vertex is not None:
+            current_vertex.visited = True
+
+            for connection in current_vertex.connections:
+                neighbor_vertex = None
+                if connection.vertexA == current_vertex.name:
+                    neighbor_vertex = self.get_vertex(connection.vertexB)
+                elif connection.vertexB == current_vertex.name:
+                    neighbor_vertex = self.get_vertex(connection.vertexA)
+
+                if neighbor_vertex is not None and not neighbor_vertex.visited:
+                    new_distance = current_vertex.distance + connection.value
+                    if new_distance < neighbor_vertex.distance:
+                        neighbor_vertex.distance = new_distance
+                        neighbor_vertex.previous = current_vertex
+
+            next_vertex = None
+            next_distance = sys.maxsize
+
+            for vertex in self.verteces:
+                if not vertex.visited and vertex.distance < next_distance:
+                    next_vertex = vertex
+                    next_distance = vertex.distance
+
+            current_vertex = next_vertex
+
+        if end_vertex.distance == sys.maxsize:
+            print("Es gibt keinen Pfad zwischen den Stationen.")
+        else:
+            print("Kürzester Pfad von {} nach {}:".format(start_vertex_name, end_vertex_name))
+            path = []
+            vertex = end_vertex
+            while vertex is not None:
+                path.insert(0, vertex.name)
+                vertex = vertex.previous
+            print(" -> ".join(path))
