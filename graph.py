@@ -32,42 +32,44 @@ class Graph:
 
         #2. iterate through information array and create verteces and edges
         for i in range(len(newRows)):
+            line = ''
+            von = ''
+            nach = ''
+            value = 0
 
             #initialize counter to keep track which station is "from" and which is "to"
             counter = 0
-            for content in newRows[i]:
-                print(newRows[i].index(content)%3)
-                print("Test "+ content)
+            j = 0
 
+            while j < len(newRows[i]):
                 #get line
-                if content == newRows[i][0]:
-                    line = content
+                if counter == 0 and newRows[i][j] == newRows[i][0]:
+                    line = newRows[i][j]
+                    #print("Line: " + line)
 
                 #get to
-                elif newRows[i].index(content)%2 == 1 and counter != 1:
-                    von = content
-                    counter = 1
+                elif counter == 0:
+                    von = newRows[i][j]
+                    #print("From: " + newRows[i][j] + " (ctr: " + str(counter) + ")")
+                    counter += 1
 
                 #get weight
-                elif newRows[i].index(content)%2 == 0:
-                    value = int(content)
+                elif counter == 1:
+                    value = newRows[i][j]
+                    #print("Value: " + str(newRows[i][j]) + " (ctr: " + str(counter) + ")")
+                    counter += 1
 
                 #get from
                 else:
-                    nach = content
+                    nach = newRows[i][j]
+                    #print("To: " + newRows[i][j] + " (ctr: " + str(counter) + ")")
                     counter = 0
+                    self.edges.append(Edge(value, line, von, nach))
+                    j = j-1
+                j += 1
 
-                
-                
-                #self.edges.append(Edge(value, line, von, nach))
-              
+        #'''  
         #Test print edges
         for edge in self.edges:
-            print("From: " + edge.von + " To: " + edge.nach + " Weight: " + edge.value)
-
-
-
-
-
-
-
+            print("From: " + edge.vertexA + " To: " + edge.vertexB + " Weight: " + edge.value)
+        #''' 
