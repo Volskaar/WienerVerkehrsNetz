@@ -23,6 +23,7 @@ class Graph:
         self.edges = []
         self.line = []
 
+    #~~~~~~~~~~~~~~~~~~~~~ Create edges based on input ~~~~~~~~~~~~~~~~~~~~~
     def defineEdges(self):
         #1. iterate through data file and seperate informations
         newRows = []
@@ -50,7 +51,6 @@ class Graph:
                 #get line
                 if counter == 0 and newRows[i][j] == newRows[i][0]:
                     line = newRows[i][0]
-                    print(line)
 
                 #get to
                 elif counter == 0:
@@ -76,7 +76,7 @@ class Graph:
             print("From: " + edge.vertexA + " To: " + edge.vertexB + " Weight: " + str(edge.value) + " On: " + edge.line)
         ''' 
 
-
+    #~~~~~~~~~~~~~~~~~~~~~ Create vertices based on edges ~~~~~~~~~~~~~~~~~~~~~
     def defineVerteces(self):
         #iterate through all edges and create for each vertex on an edge a new vertex, if not yet existing
         for edge in self.edges:
@@ -118,7 +118,7 @@ class Graph:
                 return vertex
         return None
  
-
+    #~~~~~~~~~~~~~~~~~~~~~ Dijkstra shortest path algorithm ~~~~~~~~~~~~~~~~~~~~~
     def dijkstra(self, start_vertex_name, end_vertex_name):
         start_vertex = self.get_vertex(start_vertex_name)
         end_vertex = self.get_vertex(end_vertex_name)
@@ -163,6 +163,7 @@ class Graph:
             next_vertex = None
             next_distance = sys.maxsize
 
+            #iterate through verteces and set next vertex if not visited
             for vertex in self.verteces:
                 if not vertex.visited and vertex.distance < next_distance:
                     next_vertex = vertex
@@ -170,24 +171,23 @@ class Graph:
 
             current_vertex = next_vertex
 
+        #~~~~~~~~~~~~~~~~~~~~~ Output ~~~~~~~~~~~~~~~~~~~~~
         print("Shortest path from "+ start_vertex_name +" to " + end_vertex_name)
         print("Total distance: "+ str(end_vertex.distance))
         path = []
         vertex = end_vertex
-
         
         while vertex is not None:
             path.insert(0, vertex.name)
+            for conn in vertex.connections:
+                if vertex.previous != None:
+                    if conn.vertexA == vertex.previous.name and conn.vertexB == vertex.name:
+                        path.insert(0, conn.line)
+            
             vertex = vertex.previous
 
-        i = 0
-        '''while i < len(path):
-            print("->"+ self.line[i] +": "+ path[i])
-            i = i+1
-        '''
-        #print(" -> ".join(path))
-        for inl in self.line:
-            print(inl)
+
+        print(" -> ".join(path))
 
 
 
