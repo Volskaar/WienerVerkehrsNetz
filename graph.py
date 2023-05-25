@@ -154,13 +154,10 @@ class Graph:
 
             current_vertex = next_vertex
 
-        if end_vertex.distance == sys.maxsize:
-            print("Es gibt keinen Pfad zwischen den Stationen.")
-        else:
-            print("Kürzester Pfad von {} nach {}:".format(start_vertex_name, end_vertex_name))
-            path = []
-            vertex = end_vertex
-            while vertex is not None:
-                path.insert(0, vertex.name)
-                vertex = vertex.previous
-            print(" -> ".join(path))
+        print("Kürzester Pfad von {} nach {}:".format(start_vertex_name, end_vertex_name))
+        path = []
+        vertex = end_vertex
+        while vertex is not None:
+            path.insert(0, vertex.name)
+            vertex = vertex.previous
+        print(" -> ".join(path))
