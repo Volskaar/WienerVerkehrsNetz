@@ -12,6 +12,7 @@ for i in range(1, len(sys.argv)):
     end = sys.argv[3]
 
 network = graph.Graph(input_file)
-network.setup()
+network.defineEdges()
+network.defineVerteces()
 
 #python find_path.py WienerVerkehrsNetz.txt start ziel
