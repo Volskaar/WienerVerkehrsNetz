@@ -16,4 +16,4 @@ network.defineEdges()
 network.defineVerteces()
 network.dijkstra(start, end)
 
-#python find_path.py WienerVerkehrsNetz.txt Leopoldau "Neue Donau"
+#python find_path.py WienerVerkehrsNetz.txt Leopoldau Niederhofstrasse
